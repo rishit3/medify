@@ -2,20 +2,121 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 220 33% 99%;
+    --foreground: 217 33% 17%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 217 33% 17%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 217 33% 17%;
+    
+    --primary: 228 48% 41%;
+    --primary-foreground: 226 100% 97%;
+    
+    --secondary: 228 17% 95%;
+    --secondary-foreground: 217 33% 17%;
+    
+    --muted: 228 17% 95%;
+    --muted-foreground: 215 16% 47%;
+    
+    --accent: 228 17% 95%;
+    --accent-foreground: 217 33% 17%;
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 228 48% 41%;
+    
+    --radius: 0.75rem;
+  }
+ 
+  .dark {
+    --background: 222 47% 5%;
+    --foreground: 213 31% 91%;
+    
+    --card: 222 47% 7%;
+    --card-foreground: 213 31% 91%;
+    
+    --popover: 222 47% 7%;
+    --popover-foreground: 213 31% 91%;
+    
+    --primary: 228 48% 41%;
+    --primary-foreground: 226 100% 97%;
+    
+    --secondary: 222 47% 11%;
+    --secondary-foreground: 213 31% 91%;
+    
+    --muted: 222 47% 11%;
+    --muted-foreground: 215 20% 65%;
+    
+    --accent: 222 47% 11%;
+    --accent-foreground: 213 31% 91%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 217 33% 13%;
+    --input: 217 33% 13%;
+    --ring: 228 48% 41%;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .premium-card {
+    @apply bg-card/50 backdrop-blur-sm border border-border/50 shadow-lg shadow-primary/5;
+  }
+
+  .premium-hover {
+    @apply hover:bg-accent/50 transition-colors duration-200;
+  }
+
+  .premium-input {
+    @apply bg-secondary/50 border-border/50 focus:border-primary/50 focus:ring-primary/20;
+  }
+
+  .glass-panel {
+    @apply bg-background/80 backdrop-blur-md border border-border/50;
+  }
+
+  .animated-transform {
+    @apply transition-all duration-300 ease-out;
+  }
+}
+
+.premium-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+}
+
+.premium-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.premium-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.premium-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+.premium-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--primary) 80%, white);
 }

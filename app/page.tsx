@@ -1,101 +1,134 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { Button } from "@/components/ui/button";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import {
+  Settings,
+  Menu,
+  ChevronLeft,
+  Upload,
+  MessagesSquare
+} from "lucide-react";
+import { ModeToggle } from "@/components/modetoggle";
+import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
+import ChatComponent from "@/components/chatcomponent";
+import ReportComponent from "@/components/ReportComponent";
+
+const Home = () => {
+  const { toast } = useToast();
+  const [reportData, setreportData] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  
+  const onReportConfirmation = (data: string) => {
+    setreportData(data);
+    toast({
+      description: "Report updated successfully",
+      className: "premium-card",
+    });
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="flex h-screen bg-background overflow-hidden">
+      {/* Sidebar */}
+      <aside 
+        className={`
+          fixed md:relative z-20 h-full animated-transform
+          ${sidebarOpen ? 'w-80' : 'w-0 md:w-20'} 
+          glass-panel
+        `}
+      >
+        <div className="flex h-full flex-col">
+          {/* Sidebar Header */}
+          <div className="h-16 flex items-center justify-between px-4 border-b border-border/50">
+            <div className={`flex items-center gap-2 animated-transform
+              ${sidebarOpen ? 'opacity-100' : 'opacity-0 md:opacity-100'}`}>
+              <Upload className="h-5 w-5 text-primary" />
+              <span className={`font-medium ${!sidebarOpen && 'md:hidden'}`}>
+                Medical Reports
+              </span>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="hidden md:flex text-primary"
+            >
+              <ChevronLeft className={`h-5 w-5 animated-transform
+                ${!sidebarOpen && 'rotate-180'}`} />
+            </Button>
+          </div>
+          
+          {/* Sidebar Content */}
+          <div className="flex-1 overflow-auto premium-scrollbar p-4">
+            <div className="premium-card rounded-lg p-4">
+              <ReportComponent onReportConfirmation={onReportConfirmation} />
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </aside>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Header */}
+        <header className="h-16 glass-panel border-b border-border/50 flex items-center justify-between px-4">
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="md:hidden"
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+            <div className="flex items-center gap-2">
+              <MessagesSquare className="h-5 w-5 text-primary" />
+              <span className="font-medium">AI Assistant</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <ModeToggle />
+            <Button variant="ghost" size="icon">
+              <Settings className="h-5 w-5" />
+            </Button>
+          </div>
+        </header>
+
+        {/* Main Content Area */}
+        <main className="flex-1 overflow-hidden p-4">
+          <div className="h-full flex flex-col">
+            {/* Mobile Report Access */}
+            <div className="md:hidden mb-4">
+              <Drawer>
+                <DrawerTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    className="w-full premium-card premium-hover"
+                  >
+                    <Upload className="h-4 w-4 mr-2" />
+                    View Report
+                  </Button>
+                </DrawerTrigger>
+                <DrawerContent>
+                  <div className="p-4 max-h-[80vh] overflow-auto premium-scrollbar">
+                    <ReportComponent onReportConfirmation={onReportConfirmation} />
+                  </div>
+                </DrawerContent>
+              </Drawer>
+            </div>
+
+            {/* Chat Area */}
+            <div className="flex-1 premium-card rounded-lg overflow-hidden">
+              <div className="h-full overflow-auto premium-scrollbar">
+                <ChatComponent reportData={reportData} />
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
   );
-}
+};
+
+export default Home;
